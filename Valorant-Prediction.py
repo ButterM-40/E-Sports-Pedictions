@@ -8,6 +8,7 @@ df = dfs[0]
 
 # Remove any rows that contain all NaN values
 df = df.dropna(how="all")
+df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 
 # Write DataFrame to Excel
 df.to_excel("Val_Player_Data.xlsx", index=False)
