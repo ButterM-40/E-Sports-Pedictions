@@ -25,6 +25,12 @@ for url in player_urls:
     df = df.dropna(how="all")
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 
+    # Remove parentheses and percentage from the "Use" column
+    df['Use'] = df['Use'].str.replace(r'\([^()]*\)|%', '', regex=True)
+
+    # Convert KAST from percentage to decimal
+    df['KAST'] = df['KAST'].str.rstrip('%').astype(float) / 100
+
     # Extract player name from the URL
     parsed_url = urlparse(url)
     player_name = parsed_url.path.split('/')[3]  # Extracts 't3xture' from the URL
