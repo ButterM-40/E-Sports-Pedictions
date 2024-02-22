@@ -16,7 +16,7 @@ for file in os.listdir(folder_name):
         df = pd.read_excel(os.path.join(folder_name, file))
         all_dfs.append(df)
 combined_df = pd.concat(all_dfs)
-
+print(combined_df)
 # Assuming 'Kills' is the target variable
 X = combined_df.drop(columns=['K'])
 y = combined_df['K']
@@ -47,7 +47,7 @@ history = model.fit(X_train_scaled, y_train, epochs=100, batch_size=32, validati
 # Evaluate the model
 y_pred = model.predict(X_test_scaled)
 mse = mean_squared_error(y_test, y_pred)
-print(f"Mean Squared Error: {mse}")
+#print(f"Mean Squared Error: {mse}")
 
 # Make predictions for t3xture's next game
 next_game_features = pd.DataFrame({
