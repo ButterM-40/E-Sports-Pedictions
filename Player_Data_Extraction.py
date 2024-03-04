@@ -2,14 +2,16 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-
 def extract_player_data(url):
     r = requests.get(url)
     soup = BeautifulSoup(r.text, "lxml")
     tables = soup.find_all("table", class_="wf-table-inset mod-overview")
 
     player_data = []
-    for table in tables:
+    relevant_table_indices = [0, 1, 4, 5]  # Indices of tables to consider
+    for idx, table in enumerate(tables):
+        if idx not in relevant_table_indices:
+            continue
         headers = [th.text for th in table.find_all("th")]
         data_rows = table.find_all("tr")[1:]
 
@@ -34,7 +36,7 @@ def extract_player_data(url):
 with open("player_urls.txt", "r") as file:
     urls = [line.strip() for line in file.readlines()]
 
-    # Combine data from all URLs into a single DataFrame
+    # Combine data from relevant tables of all URLs into a single DataFrame
     combined_df = pd.concat([extract_player_data(url) for url in urls], ignore_index=True)
 
     # Define the file path
