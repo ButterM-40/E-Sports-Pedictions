@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 import os
 
 # Read URLs from the text file
-with open("player_urls.txt", "r") as file:
+with open("../player_urls.txt", "r") as file:
     player_urls = file.readlines()
 
 # Create a folder named "Player_Data" if it doesn't exist
