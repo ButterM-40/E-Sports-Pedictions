@@ -61,6 +61,7 @@ with open("player_urls.txt", "r") as file:
     # Rename the first column to "Name" and drop the second column
     combined_df.rename(columns={combined_df.columns[0]: "Name"}, inplace=True)
     combined_df.drop(combined_df.columns[1], axis=1, inplace=True)
+    combined_df.sort_values(by="Name", inplace=True)
 
     # Save the modified DataFrame back to the Excel file
     combined_df.to_excel(file_path, index=False)
