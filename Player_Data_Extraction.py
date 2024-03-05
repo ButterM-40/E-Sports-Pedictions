@@ -58,10 +58,13 @@ with open("player_urls.txt", "r") as file:
     # Read the Excel file again
     combined_df = pd.read_excel(file_path)
 
-    # Rename the first column to "Name" and drop the second column
+    # Cleaning Data
     combined_df.rename(columns={combined_df.columns[0]: "Name"}, inplace=True)
     combined_df.drop(combined_df.columns[1], axis=1, inplace=True)
     combined_df.sort_values(by="Name", inplace=True)
+    combined_df['KAST'] = combined_df['KAST'].str.rstrip('%').astype(float) / 100
+    combined_df['HS%'] = combined_df['HS%'].str.rstrip('%').astype(float) / 100
+
 
     # Save the modified DataFrame back to the Excel file
     combined_df.to_excel(file_path, index=False)
