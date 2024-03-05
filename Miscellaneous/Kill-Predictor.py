@@ -9,7 +9,7 @@ from tensorflow.keras.optimizers import Adam
 from sklearn.metrics import mean_squared_error
 
 # Load data from the Excel files into a single DataFrame
-folder_name = "Player_Data"
+folder_name = "Miscellaneous"
 all_dfs = []
 for file in os.listdir(folder_name):
     if file.endswith(".xlsx"):

@@ -2,6 +2,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
+
 def extract_player_data(url):
     r = requests.get(url)
     soup = BeautifulSoup(r.text, "lxml")
@@ -13,10 +14,12 @@ def extract_player_data(url):
         if idx not in relevant_table_indices:
             continue
         headers = [th.text for th in table.find_all("th")]
+        headers.append("Team")  # Add "Team" as an additional column header
         data_rows = table.find_all("tr")[1:]
 
         for row in data_rows:
             row_data = []
+            team_name = ""
             for td in row.find_all("td"):
                 if td.get("class") == ["mod-stat", "mod-vlr-deaths"]:
                     deaths_span = td.find("span", class_="mod-both")
@@ -28,11 +31,18 @@ def extract_player_data(url):
                         row_data.append(first_value)
                     else:
                         row_data.append("")
+                if td.get("class") == ["mod-player"]:
+                    team_name_div = td.find("div", class_="ge-text-light")
+                    team_name = team_name_div.text.strip() if team_name_div else ""
+            row_data.append(team_name)
             player_data.append(row_data)
 
     return pd.DataFrame(player_data, columns=headers)
 
-    # Read URLs from the text file
+
+
+
+
 with open("player_urls.txt", "r") as file:
     urls = [line.strip() for line in file.readlines()]
 
