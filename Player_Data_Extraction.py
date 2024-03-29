@@ -35,12 +35,10 @@ def extract_player_data(url):
                     team_name_div = td.find("div", class_="ge-text-light")
                     team_name = team_name_div.text.strip() if team_name_div else ""
             row_data.append(team_name)
+            row_data.append(url)  # Append URL to the row data
             player_data.append(row_data)
 
-    return pd.DataFrame(player_data, columns=headers)
-
-
-
+    return pd.DataFrame(player_data, columns=headers + ["URL"])  # Add "URL" to headers
 
 
 with open("player_urls.txt", "r") as file:
@@ -64,7 +62,6 @@ with open("player_urls.txt", "r") as file:
     combined_df.sort_values(by="Name", inplace=True)
     combined_df['KAST'] = combined_df['KAST'].str.rstrip('%').astype(float) / 100
     combined_df['HS%'] = combined_df['HS%'].str.rstrip('%').astype(float) / 100
-
 
     # Save the modified DataFrame back to the Excel file
     combined_df.to_excel(file_path, index=False)
